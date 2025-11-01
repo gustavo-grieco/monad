@@ -166,11 +166,21 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
             # mem
             "mem/huge_mem.hpp"
             "mem/huge_mem.cpp"
-            "mem/hugetlb_path.c"
-            "mem/hugetlb_path.h"
             # procfs
             "procfs/statm.c"
             "procfs/statm.h")
+  if(NOT MONAD_EVENT_DISABLE_LIBHUGETLBFS)
+    target_sources(
+      monad_core
+      PRIVATE
+        "mem/hugetlb_path.c"
+        "mem/hugetlb_path.h"
+    )
+  endif()
+endif()
+
+if(MONAD_EVENT_DISABLE_LIBHUGETLBFS)
+  target_compile_definitions(monad_core PUBLIC "MONAD_EVENT_DISABLE_LIBHUGETLBFS=1")
 endif()
 
 target_include_directories(monad_core PRIVATE "${THIRD_PARTY_DIR}/openssl")
@@ -208,7 +218,10 @@ target_link_libraries(monad_core PUBLIC intx)
 target_link_libraries(monad_core PUBLIC quill)
 target_link_libraries(monad_core PUBLIC unordered_dense)
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-  target_link_libraries(monad_core PUBLIC hugetlbfs uring)
+  target_link_libraries(monad_core PUBLIC uring)
+  if(NOT MONAD_EVENT_DISABLE_LIBHUGETLBFS)
+    target_link_libraries(monad_core PUBLIC hugetlbfs)
+  endif()
 endif()
 
 add_library(

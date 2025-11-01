@@ -110,6 +110,15 @@ You can also run the full test suite in parallel with:
 CTEST_PARALLEL_LEVEL=$(nproc) ctest
 ```
 
+In case you want to compile it using Clang, run the following command:
+
+```shell
+CC=clang-19 CXX=clang++-19 CFLAGS="-march=haswell -fno-access-control" CXXFLAGS="-march=haswell -fno-access-control" ASMFLAGS="-march=haswell -fno-access-control" \
+./scripts/configure.sh && ./scripts/build.sh
+```
+
+Finally, if you want to disable support for HugetLBFS support, add the line `-DMONAD_EVENT_DISABLE_LIBHUGETLBFS=TRUE` into `scripts/configure.sh` before building.
+
 ## A tour of execution
 
 To understand how the source code is organized, you should start by reading
