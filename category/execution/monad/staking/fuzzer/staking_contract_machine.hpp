@@ -17,7 +17,7 @@
 #include <category/vm/evm/traits.hpp>
 #include <category/vm/fuzzing/generator/choice.hpp>
 
-#include <magic_enum.hpp>
+#include <magic_enum/magic_enum.hpp>
 
 #include <random>
 #include <unordered_map>
