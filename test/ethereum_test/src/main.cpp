@@ -68,10 +68,12 @@ int main(int argc, char *argv[])
     CLI::App app{"monad ethereum tests runner"};
     app.add_option("--log_level", log_level, "Logging level")
         ->transform(CLI::CheckedTransformer(log_level_map, CLI::ignore_case));
+    std::vector<std::string> forks;
+    for (auto const &[name, _] : test::revision_map) {
+        forks.push_back(name);
+    }
     app.add_option("--fork", fork_name, "Fork to run unit tests for")
-        ->transform(CLI::IsMember(
-            std::views::keys(test::revision_map) | std::ranges::to<std::set>(),
-            CLI::ignore_case));
+        ->transform(CLI::IsMember(forks, CLI::ignore_case));
 
     app.callback([&]() {
         if (fork_name) {

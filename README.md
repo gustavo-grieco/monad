@@ -72,9 +72,16 @@ CC=gcc-15 CXX=g++-15 CFLAGS="-march=haswell" CXXFLAGS="-march=haswell" ASMFLAGS=
 ./scripts/configure.sh && ./scripts/build.sh
 ```
 
+Or, to build with clang-19 instead:
+
+```shell
+CC=clang-19 CXX=clang++-19 CFLAGS="-march=haswell" CXXFLAGS="-march=haswell" ASMFLAGS="-march=haswell" \
+./scripts/configure.sh && ./scripts/build.sh
+```
+
 The above command will do several things:
 
-- Use gcc-15 instead of the system's default compiler
+- Use the specified compiler instead of the system's default compiler
 
 - Emit machine code using Haswell-era CPU extensions
 

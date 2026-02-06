@@ -300,7 +300,10 @@ TYPED_TEST(RuntimeTraitsTest, DelegatedCall)
 {
     auto const delegate_addr = address_from_uint256(0xBEEF);
     std::vector<uint8_t> coffee_code = {0xef, 0x01, 0x00};
-    coffee_code.append_range(delegate_addr.bytes);
+    coffee_code.insert(
+        coffee_code.end(),
+        std::begin(delegate_addr.bytes),
+        std::end(delegate_addr.bytes));
     ASSERT_EQ(coffee_code.size(), 23);
     TestFixture::add_account_at(0xC0FFEE, coffee_code);
 
@@ -327,7 +330,10 @@ TYPED_TEST(RuntimeTraitsTest, DelegatedStaticCall)
     if constexpr (TestFixture::Trait::evm_rev() >= EVMC_BYZANTIUM) {
         auto const delegate_addr = address_from_uint256(0xBEEF);
         std::vector<uint8_t> coffee_code = {0xef, 0x01, 0x00};
-        coffee_code.append_range(delegate_addr.bytes);
+        coffee_code.insert(
+            coffee_code.end(),
+            std::begin(delegate_addr.bytes),
+            std::end(delegate_addr.bytes));
         ASSERT_EQ(coffee_code.size(), 23);
         TestFixture::add_account_at(0xC0FFEE, coffee_code);
 
@@ -355,7 +361,10 @@ TYPED_TEST(RuntimeTraitsTest, DelegatedDelegateCall)
     if constexpr (TestFixture::Trait::evm_rev() >= EVMC_BYZANTIUM) {
         auto const delegate_addr = address_from_uint256(0xBEEF);
         std::vector<uint8_t> coffee_code = {0xef, 0x01, 0x00};
-        coffee_code.append_range(delegate_addr.bytes);
+        coffee_code.insert(
+            coffee_code.end(),
+            std::begin(delegate_addr.bytes),
+            std::end(delegate_addr.bytes));
         ASSERT_EQ(coffee_code.size(), 23);
         TestFixture::add_account_at(0xC0FFEE, coffee_code);
 
@@ -389,7 +398,10 @@ TYPED_TEST(RuntimeTraitsTest, DelegatedCallcode)
 {
     auto const delegate_addr = address_from_uint256(0xBEEF);
     std::vector<uint8_t> coffee_code = {0xef, 0x01, 0x00};
-    coffee_code.append_range(delegate_addr.bytes);
+    coffee_code.insert(
+        coffee_code.end(),
+        std::begin(delegate_addr.bytes),
+        std::end(delegate_addr.bytes));
     ASSERT_EQ(coffee_code.size(), 23);
     TestFixture::add_account_at(0xC0FFEE, coffee_code);
 
@@ -422,7 +434,10 @@ TYPED_TEST(RuntimeTraitsTest, DelegatedCallPrecompile)
 {
     auto const delegate_addr = address_from_uint256(0x01);
     std::vector<uint8_t> coffee_code = {0xef, 0x01, 0x00};
-    coffee_code.append_range(delegate_addr.bytes);
+    coffee_code.insert(
+        coffee_code.end(),
+        std::begin(delegate_addr.bytes),
+        std::end(delegate_addr.bytes));
     ASSERT_EQ(coffee_code.size(), 23);
     TestFixture::add_account_at(0xC0FFEE, coffee_code);
 
@@ -459,7 +474,7 @@ TYPED_TEST(RuntimeTraitsTest, DelegatedCallBadCode1)
 {
     std::array<uint8_t, 2> baad_addr{0xBA, 0xAD};
     std::vector<uint8_t> coffee_code = {0xef, 0x01, 0x00};
-    coffee_code.append_range(baad_addr);
+    coffee_code.insert(coffee_code.end(), baad_addr.begin(), baad_addr.end());
     TestFixture::add_account_at(0xC0FFEE, coffee_code);
 
     auto do_call = TestFixture::wrap(

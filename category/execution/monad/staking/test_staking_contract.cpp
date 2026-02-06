@@ -4373,7 +4373,8 @@ TEST_F(StakeLatest, get_valset_paginated_reads)
             ARRAY_PAGINATION);
         std::vector<u64_be> valset_page;
         std::tie(done2, next_index, valset_page) = std::move(paginated_res);
-        valset_paginated.insert_range(valset_paginated.end(), valset_page);
+        valset_paginated.insert(
+            valset_paginated.end(), valset_page.begin(), valset_page.end());
     }
     while (!done2);
 
@@ -4414,8 +4415,10 @@ TYPED_TEST(StakeAllRevisions, get_delegators_for_validator_paginated_reads)
         std::vector<Address> delegators_page;
         std::tie(done2, next_delegator, delegators_page) =
             std::move(paginated_res);
-        delegators_paginated.insert_range(
-            delegators_paginated.end(), delegators_page);
+        delegators_paginated.insert(
+            delegators_paginated.end(),
+            delegators_page.begin(),
+            delegators_page.end());
     }
     while (!done2);
 

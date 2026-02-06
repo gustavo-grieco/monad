@@ -248,7 +248,7 @@ static evmc::address deploy_delegated_contract(
     State &state, evmc::address const &from, evmc::address const &delegatee)
 {
     std::vector<uint8_t> code = {0xef, 0x01, 0x00};
-    code.append_range(delegatee.bytes);
+    code.insert(code.end(), std::begin(delegatee.bytes), std::end(delegatee.bytes));
     MONAD_VM_ASSERT(code.size() == 23);
     return deploy_contract(state, from, code);
 }
